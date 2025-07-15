@@ -17,6 +17,12 @@ public interface BookRepo extends JpaRepository<Book, Long> {
     )
     Page<Book> searchBooks(@Param("searchTerm") String searchTerm, Pageable pageable);
 
+    @Query(nativeQuery = true,
+    value = "select b.* from books b inner join books_authors ba on b.book_id = ba.book_id inner join authors a on ba.author_id = a.author_id where ba.author_name=:authorName ",
+            countQuery ="select count(*) from books b inner join books_authors ba on b.book_id = ba.book_id inner join authors a on ba.author_id = a.author_id where a.author_id=:authorId "
+    )
+    Page<Book> findBooksByAuthorId(@Param("authorId") long id, Pageable pageable);
+
     Optional<Book> findByIsbn(String isbn);
 
     boolean existsByIsbn(String isbn);
