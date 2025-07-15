@@ -1,6 +1,6 @@
 package com.samurai74.booksearchengine.service.impl;
 
-import com.samurai74.booksearchengine.domain.Book;
+import com.samurai74.booksearchengine.domain.entity.Book;
 import com.samurai74.booksearchengine.repository.BookRepo;
 import com.samurai74.booksearchengine.service.BookService;
 import lombok.RequiredArgsConstructor;

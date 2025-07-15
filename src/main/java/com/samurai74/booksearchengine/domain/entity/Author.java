@@ -1,4 +1,4 @@
-package com.samurai74.booksearchengine.domain;
+package com.samurai74.booksearchengine.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

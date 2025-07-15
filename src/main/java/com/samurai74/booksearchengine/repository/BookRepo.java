@@ -1,6 +1,6 @@
 package com.samurai74.booksearchengine.repository;
 
-import com.samurai74.booksearchengine.domain.Book;
+import com.samurai74.booksearchengine.domain.entity.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

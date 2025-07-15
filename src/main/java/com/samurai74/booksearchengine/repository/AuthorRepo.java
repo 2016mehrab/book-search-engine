@@ -1,6 +1,6 @@
 package com.samurai74.booksearchengine.repository;
 
-import com.samurai74.booksearchengine.domain.Author;
+import com.samurai74.booksearchengine.domain.entity.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
