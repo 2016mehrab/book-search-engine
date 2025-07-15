@@ -9,4 +9,5 @@ public interface AuthorRepo extends JpaRepository<Author, Long> {
     boolean existsByNameIgnoreCase(String name);
 
     Optional<Author > findByNameIgnoreCase(String name);
+
 }
