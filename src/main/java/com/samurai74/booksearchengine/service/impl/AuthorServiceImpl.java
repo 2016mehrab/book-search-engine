@@ -25,6 +25,9 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional
     public Author createAuthor(AuthorRequest authorRequest) {
+        if(authorRepo.findByNameIgnoreCase(authorRequest.name()).isPresent()) {
+            throw new IllegalArgumentException("Author name already exists");
+        }
         var author = new Author();
         author.setName(authorRequest.name());
         author.setBooks(new HashSet<>());

@@ -49,6 +49,23 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public Book createBook(BookRequest bookRequest) {
+        if (bookRepo.existsByIsbn(bookRequest.isbn())) 
+            throw new IllegalArgumentException("book with isbn: "+ bookRequest.isbn()+" already exists");
+
+        Book book = getBook(bookRequest);
+        Set<Author> authors =  bookRequest.authorNames().stream()
+                .map((name)-> authorRepo.findByNameIgnoreCase(name).orElseGet(()->{
+                    var author = new Author();
+                    author.setName(name);
+                    author.setBooks(new HashSet<>());
+                    return author;
+                }))
+                .collect(Collectors.toSet());
+        for (var author: authors) book.addAuthor(author);
+        return bookRepo.save(book);
+    }
+
+    private static Book getBook(BookRequest bookRequest) {
         Book book = new Book();
         book.setTitle(bookRequest.title());
         book.setRating(bookRequest.rating());
@@ -64,15 +81,6 @@ public class BookServiceImpl implements BookService {
         book.setLikedPercent(bookRequest.likedPercent());
         book.setPrice(bookRequest.price());
         book.setAuthors(new HashSet<>());
-        Set<Author> authors =  bookRequest.authorNames().stream()
-                .map((name)-> authorRepo.findByNameIgnoreCase(name).orElseGet(()->{
-                    var author = new Author();
-                    author.setName(name);
-                    author.setBooks(new HashSet<>());
-                    return author;
-                }))
-                .collect(Collectors.toSet());
-        for (var author: authors) book.addAuthor(author);
-        return bookRepo.save(book);
+        return book;
     }
 }
