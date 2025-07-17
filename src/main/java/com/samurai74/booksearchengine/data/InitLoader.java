@@ -148,6 +148,11 @@ public class InitLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        ImportCSV();
+        if(bookRepo.count()==0){
+            log.info("Database is empty, importing csv process starts now...");
+            ImportCSV();
+        }
+        else
+            log.info("Database already contains data, skipping csv import process.");
     }
 }
