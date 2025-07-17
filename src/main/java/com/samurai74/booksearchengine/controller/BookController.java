@@ -21,9 +21,9 @@ public class BookController {
 
     @GetMapping
     public ResponseEntity<Page<BookResponse>> getBooks(
-            @RequestParam(name="search") String searchTerm,
-            @RequestParam(name = "pageSize") int pageSize,
-            @RequestParam(name = "page") int page
+            @RequestParam(name="search", required = false) String searchTerm,
+            @RequestParam(name = "pageSize", defaultValue = "5") int pageSize,
+            @RequestParam(name = "page", defaultValue = "0") int page
             ) {
         Pageable pageable = PageRequest.of(page, pageSize);
         var booksPage = bookService.searchBooks(searchTerm, pageable);

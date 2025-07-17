@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -62,10 +63,12 @@ public class BookServiceImpl implements BookService {
         book.setFirstPublishDate(bookRequest.firstPublishDate());
         book.setLikedPercent(bookRequest.likedPercent());
         book.setPrice(bookRequest.price());
+        book.setAuthors(new HashSet<>());
         Set<Author> authors =  bookRequest.authorNames().stream()
                 .map((name)-> authorRepo.findByNameIgnoreCase(name).orElseGet(()->{
                     var author = new Author();
                     author.setName(name);
+                    author.setBooks(new HashSet<>());
                     return author;
                 }))
                 .collect(Collectors.toSet());

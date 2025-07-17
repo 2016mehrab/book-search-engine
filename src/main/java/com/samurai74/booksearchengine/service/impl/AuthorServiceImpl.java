@@ -20,7 +20,6 @@ import java.util.HashSet;
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepo authorRepo;
-    private  final AuthorMapper authorMapper;
     private final BookRepo bookRepo;
 
     @Override
