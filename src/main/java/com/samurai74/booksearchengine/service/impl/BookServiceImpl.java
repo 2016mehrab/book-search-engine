@@ -41,9 +41,9 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void deleteByIsbn(String isbn) {
-        if(bookRepo.existsByIsbn(isbn)){
-            bookRepo.deleteByIsbn(isbn);
-        }
+        int deletedCount = bookRepo.deleteByIsbn(isbn);
+        if(deletedCount==0) throw new EntityNotFoundException("book with isbn: "+ isbn+" not found");
+
     }
 
     @Override
