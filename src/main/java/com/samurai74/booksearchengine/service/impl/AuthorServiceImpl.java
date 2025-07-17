@@ -43,4 +43,11 @@ public class AuthorServiceImpl implements AuthorService {
     public Page<Author> getAuthors(PageRequest pageRequest) {
         return  authorRepo.findAll(pageRequest);
     }
+
+    @Override
+    @Transactional
+    public void deleteByAuthorName(String authorName) {
+        int deletedCount = authorRepo.deleteByNameIgnoreCase(authorName);
+        if(deletedCount==0) throw new EntityNotFoundException("Author not found");
+    }
 }

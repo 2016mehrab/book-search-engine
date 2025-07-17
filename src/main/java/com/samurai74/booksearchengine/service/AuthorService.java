@@ -10,4 +10,5 @@ public interface AuthorService {
     Author createAuthor(AuthorRequest authorRequest);
     Page<Book> getBooksByAuthor(String authorName, PageRequest pageRequest);
     Page<Author> getAuthors(PageRequest pageRequest);
+    void deleteByAuthorName(String authorName);
 }

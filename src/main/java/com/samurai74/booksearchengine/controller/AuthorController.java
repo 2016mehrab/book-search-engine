@@ -41,7 +41,14 @@ public class AuthorController {
     ) {
         var booksPage = authorService.getBooksByAuthor(authorName,PageRequest.of(page, pageSize)).map(bookMapper::toBookResponse);
         return ResponseEntity.ok(booksPage);
+    }
 
+    @DeleteMapping("/{authorName}")
+    public ResponseEntity<Void>  deleteAuthor(
+            @PathVariable String authorName
+    ) {
+         authorService.deleteByAuthorName(authorName);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping
