@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface BookRepo extends JpaRepository<Book, Long> {
     @Query(
-            value="SELECT " +
+            value="SELECT DISTINCT " +
                     "b.book_id, " +
                     "ts_headline('english', b.title, plainto_tsquery('english', :searchTerm),'StartSel=<span>,StopSel=</span>' ) AS title, " +
                     "b.rating, " +
