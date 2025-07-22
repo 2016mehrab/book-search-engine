@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@layer base{
+    *{
+        outline-width: 0;
+        outline-style: solid;
+    }
+}
+.book-highlight-container span
+ {
+  background-color: var(--color-blue-400);
+}
