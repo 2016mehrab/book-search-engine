@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Node / Vite / React (inside client folder)
+/client/node_modules/
+/client/dist/
+/client/.env
+/client/.env.local
+/client/.vite/
