@@ -1,6 +1,8 @@
 import { forwardRef, useRef, useState } from "react";
 import { API } from "../configs/constants";
 import BookService from "../services/BookService";
+import { Link } from "react-router";
+import Button from "./Button";
 
 const Search = forwardRef(({ open, openResults }, ref) => {
   const [query, setQuery] = useState("");
@@ -9,14 +11,17 @@ const Search = forwardRef(({ open, openResults }, ref) => {
   const [error, setError] = useState("");
   const [pageNum, setPageNum] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [hasSearched, setHasSearched] = useState(false);
   const scrollContainerRef = useRef(null);
 
   const fetchBooks = async (page = 0) => {
     try {
       setLoading(true);
       setError("");
-      const service = BookService.getInstance(API.URL);
+      setHasSearched(false);
+      const service = BookService.getInstance();
       const result = await service.searchBooks(query, page);
+      setHasSearched(true);
       return result;
     } catch (e) {
       setError(e.message || "Something went wrong.");
@@ -59,29 +64,28 @@ const Search = forwardRef(({ open, openResults }, ref) => {
         }
       }
     }, 300);
-
   }
 
   console.log("page-", pageNum);
 
   return (
-    <div className=" " ref={ref}>
-      <form
-        onSubmit={handleSubmit}
-        className="flex items-center gap-2"
-      >
+    <div className="pt-8" ref={ref}>
+      <form onSubmit={handleSubmit} className="  flex items-center gap-2">
         <label htmlFor="bookSearch">Search:</label>
-        <div className="relative  flex-1 ">
+        <div className="relative  flex-1 max-w-2xl">
           <input
-            className="pl-2 py-1 border-1 rounded-sm w-full outline-transparent"
+            className="pl-2 py-1 border-1 rounded-sm  w-full outline-transparent"
             type="search"
             id="bookSearch"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setHasSearched(false);
+            }}
           />
           <section className="absolute  w-full">
             <ul
-              className="p-2 overflow-scroll max-h-96 shadow-md"
+              className=" overflow-scroll max-h-96 shadow-md"
               ref={scrollContainerRef}
               onScroll={handleScroll}
             >
@@ -90,38 +94,40 @@ const Search = forwardRef(({ open, openResults }, ref) => {
               {books?.length > 0 && open ? (
                 books.map((b) => {
                   return (
-                    <li key={b.id} className=" border-gray-300 shadow-sm p-2 ">
-                      <h4
-                        className="font-semibold  book-highlight-container"
-                        dangerouslySetInnerHTML={{ __html: b.title }}
-                      ></h4>
-                      <p
-                        className="text-[.9rem] book-highlight-container"
-                        dangerouslySetInnerHTML={{ __html: b.description }}
-                      ></p>
-                      <span
-                        className="text-[0.95rem] book-highlight-container"
-                        dangerouslySetInnerHTML={{ __html: b.isbn }}
-                      ></span>
-                    </li>
+                    <Link to={`/books/${encodeURIComponent(b.isbn)}`}>
+                      <li
+                        key={b.id}
+                        className=" hover:bg-blue-100 border-gray-300 shadow-sm p-2 "
+                      >
+                        <h4
+                          className="font-semibold  book-highlight-container"
+                          dangerouslySetInnerHTML={{ __html: b.title }}
+                        ></h4>
+                        <p
+                          className="text-[.9rem] book-highlight-container"
+                          dangerouslySetInnerHTML={{ __html: b.description }}
+                        ></p>
+                        <span
+                          className="text-[0.95rem] book-highlight-container"
+                          dangerouslySetInnerHTML={{ __html: b.isbn }}
+                        ></span>
+                      </li>
+                    </Link>
                   );
                 })
-              ) : query.length > 0 && open ? (
-                <div className="">No books match.</div>
+              ) : hasSearched && (query.length > 0) && open ? (
+                <div className="p-2">No books match.</div>
               ) : null}
             </ul>
           </section>
         </div>
 
-        <button
-          type="submit"
-          className="rounded-sm border-1 border-blue-400 px-2 py-1 hover:bg-blue-400 hover:text-white cursor-pointer duration-300"
-        >
-          Go
-        </button>
+        <Button label={"Go"} type="submit" />
       </form>
     </div>
   );
 });
+
+Search.displayName = "Search";
 
 export default Search;

@@ -1,3 +1,5 @@
+import { API } from "../configs/constants";
+
 class BookService {
   static #instance = null;
   constructor(baseUrl) {
@@ -6,12 +8,13 @@ class BookService {
     }
     this.baseUrl = baseUrl;
   }
-  static getInstance(baseUrl) {
+  static getInstance() {
     if (!BookService.#instance) {
-      BookService.#instance = new BookService(baseUrl);
+      BookService.#instance = new BookService(API.URL);
     }
     return BookService.#instance;
   }
+
   async searchBooks(query = "", page = 0, size = 5) {
     try {
       let url;
@@ -32,6 +35,27 @@ class BookService {
     } catch (e) {
       console.error("error occured", e);
       throw e;
+    }
+  }
+  async getBookByIsbn(isbn){
+    try {
+      const url = `${this.baseUrl}/books/${isbn}`;
+      const res = await fetch(url);
+
+      if(!res.ok){
+        console.error(res);
+        throw new Error(`Failed to fetch book with isbn: ${isbn}`);
+
+      }
+      const data = await res.json();
+
+      console.log(data);
+      return data;
+      
+    } catch (error) {
+      console.error("error occured when fetching books", error.message);
+      throw error;
+      
     }
   }
 }
