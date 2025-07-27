@@ -1,5 +1,4 @@
 import { forwardRef, useRef, useState } from "react";
-import { API } from "../configs/constants";
 import BookService from "../services/BookService";
 import { Link } from "react-router";
 import Button from "./Button";
@@ -46,7 +45,7 @@ const Search = forwardRef(({ open, openResults }, ref) => {
   }
 
   let timeout;
-  async function handleScroll(e) {
+  async function handleScroll() {
     clearTimeout(timeout);
     timeout = setTimeout(async () => {
       const { scrollTop, scrollHeight, clientHeight } =
@@ -81,6 +80,7 @@ const Search = forwardRef(({ open, openResults }, ref) => {
             onChange={(e) => {
               setQuery(e.target.value);
               setHasSearched(false);
+              setBooks([])
             }}
           />
           <section className="absolute  w-full">

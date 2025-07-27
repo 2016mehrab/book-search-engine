@@ -38,3 +38,6 @@ build/
 /client/.env
 /client/.env.local
 /client/.vite/
+
+# log files
+application.txt*
