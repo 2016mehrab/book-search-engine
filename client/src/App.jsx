@@ -6,7 +6,7 @@ import ErrorFallback from "./components/ErrorFallback";
 
 const App = () => {
   return (
-    <BrowserRouter basename="/booksearch/">
+    <BrowserRouter >
       <Routes>
         <Route path="/" element={<Home />} />
         <Route

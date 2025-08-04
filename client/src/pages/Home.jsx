@@ -13,12 +13,10 @@ const Home = () => {
 
   useEffect(() => {
     function handleClickOutside(e) {
-      console.log("handleClickOutside", e.target);
       if (
         searchWrapperRef.current &&
         !searchWrapperRef.current.contains(e.target)
       ) {
-        console.log("Inside condition");
         SetOpen(false);
       }
     }
@@ -32,7 +30,7 @@ const Home = () => {
     <div
       className="   w-full h-screen"
     >
-      <div className="p-4 m-auto pt-4 w-2/3 ">
+      <div className="p-4 m-auto pt-4 max-w-3xl">
       <ErrorBoundary fallback={<ErrorFallback/>}>
         <Search ref={searchWrapperRef} openResults={openResults} open={open} /></ErrorBoundary>
       </div>

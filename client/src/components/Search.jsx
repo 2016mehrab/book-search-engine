@@ -69,13 +69,14 @@ const Search = forwardRef(({ open, openResults }, ref) => {
 
   return (
     <div className="pt-8" ref={ref}>
-      <form onSubmit={handleSubmit} className="  flex items-center gap-2">
+      <form onSubmit={handleSubmit} className=" flex items-center gap-2">
         <label htmlFor="bookSearch">Search:</label>
         <div className="relative  flex-1 max-w-2xl">
           <input
             className="pl-2 py-1 border-1 rounded-sm  w-full outline-transparent"
             type="search"
             id="bookSearch"
+            placeholder="Search books using title, isbn or description..."
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -122,7 +123,7 @@ const Search = forwardRef(({ open, openResults }, ref) => {
           </section>
         </div>
 
-        <Button label={"Go"} type="submit" />
+        <Button styles={""} label={"Go"} type="submit" />
       </form>
     </div>
   );
