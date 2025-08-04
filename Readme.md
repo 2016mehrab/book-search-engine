@@ -76,15 +76,35 @@ A full-stack application for searching books. It uses a Spring Boot backend and 
 
 ### 1. Development Mode (Backend and Frontend Separately)
 
-This mode is ideal for active development, offering hot-reloading for the frontend and faster backend restarts.
+This mode is ideal for active development.
+* **Environment Variables:**
+    * Before you run the application, you must provide the necessary environment variables for the backend to connect to the database and configure the server.
+    * You can provide these through your preferred IDE or by setting them in your shell session.
+        * `DB_URL`: Your PostgreSQL database URL
+
+        * `DB_USERNAME`: The database username
+
+        * `DB_PASSWORD`: The database password
+
+        * `SERVER_PORT`: The port for the backend API
+
+        * `BATCH_SIZE`: The batch size for database operations
+
+        * `CORS_ORIGINS`: A comma-separated list of allowed frontend URLs
+         
+    * Create a `.env` file in the `client` directory and add the backend-url: 
+        ```text
+        VITE_API_URL=https://${backend_url}/api/v1
+        ```
+
 
 * **Run Backend API:**
     * Open a terminal in the project root (`book-search-engine`).
     * Start the Spring Boot application:
         ```bash
-        mvn spring-boot:run
+        ./mvnw spring-boot:run
         ```
-    * The API will be available at `http://localhost:8080` (default port).
+    * The API will be available at `http://localhost:${SERVER_PORT}`.
 
 * **Run Frontend Development Server:**
     * Open a **new** terminal.
@@ -106,7 +126,7 @@ This mode packages the entire application (backend API + pre-built frontend) int
     * Ensure you have completed the "Frontend Build" step (`npm run build` in `client/`) recently.
     * From the project root (`book-search-engine`):
         ```bash
-        mvn clean package
+        ./mvnw clean package
         ```
 * **Run the JAR:**
     * Navigate to the `target` directory:
@@ -117,8 +137,14 @@ This mode packages the entire application (backend API + pre-built frontend) int
         ```bash
         java -jar book-search-engine-0.0.1-SNAPSHOT.jar
         ```
-    * Access the application in your browser at `http://localhost:8080`.
-
+    * Access the application in your browser at `http://localhost:${SERVER_PORT}`.
+* **Build the Front-end:**
+    * Execute:
+      ```bash
+      npm run build
+      ```
+    * deploy the `dist` folder.
+ 
 ## API Endpoints
 
 ### Books
